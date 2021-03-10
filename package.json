@@ -1,0 +1,41 @@
+{
+  "name": "browlog",
+  "version": "1.0.0",
+  "description": "Instant error reporting from browser to your webhook channel of choice",
+  "author": "Joshua Stephen (https://github.com/josteph)",
+  "homepage": "https://github.com/josteph/browlog",
+  "main": "dist/index.js",
+  "keywords": [
+    "logger",
+    "browser",
+    "error logger"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && node ./scripts/build",
+    "prerelease": "npm run build",
+    "release": "release-it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josteph/browlog.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/josteph/browlog/issues"
+  },
+  "dependencies": {
+    "debounce": "^1.2.1"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^2.0.1",
+    "esbuild": "^0.9.0",
+    "release-it": "*",
+    "typescript": "^4.2.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
