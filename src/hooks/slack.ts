@@ -68,7 +68,10 @@ const generateFetch = (data, webhookUrl: string) => {
   });
 };
 
-export {
-  generateTemplate,
-  generateFetch,
+const slackReporter = (log: Log, webhookUrl: string) => {
+  return generateFetch(generateTemplate(log), webhookUrl);
 };
+
+export { generateTemplate, generateFetch };
+
+export default slackReporter;

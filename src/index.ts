@@ -1,12 +1,38 @@
 declare global {
   interface Window {
+    /**
+     * The browlog instance assigned in window property.
+     * 
+     * Make sure this logger is run in the browser
+     */
     _browlog: BrowLog | undefined;
   }
 
   interface BrowLog {
+    /**
+     * Enable logging after being disabled.
+     * 
+     * Browlog will be automatically enabled by default.
+     * 
+     * Calling this when browlog is already enabled will not yield any effect.
+     */
     enable(): void;
+
+    /**
+     * Disable logging temporarily until enable() is called again
+     */
     disable(): void;
+
+    /**
+     * Post an error log. Although it will be queued until debounce duration finished.
+     */
     log(type: string, messages: any[]): void;
+
+    /**
+     * The original from overriden console object.
+     * 
+     * Browlog only covers "error" only for now.
+     */
     console: {
       error: any;
     }
@@ -22,19 +48,44 @@ declare global {
     messages: string[];
   }
 
-  interface Options {
-    reporter: (...data: any[]) => void;
+  interface LoggerOptions {
+    /**
+     * An array of promises generated from fetch after chain process a log request.
+     * 
+     * Read more about it here:
+     * https://github.com/josteph/browlog#reporter
+     */
+    reporters: ((...data: any[]) => void)[];
+
+    /**
+     * Prevent browlog from init & attaching event listeners.
+     * 
+     * You can call another `browlog.init()` again somewhere.
+     */
     disable?: boolean;
+
+    /**
+     * An array of regex to filter out unnecessary errors from being logged.
+     * 
+     * For example:
+     * 
+     * `[/Message\: Script error\./, /Vue warn/, /Service worker/]`
+     */
     ignoreErrors?: RegExp[];
-    template?: string;
+
+    /**
+     * Debounce threshold for the logger to be queued before sending them in parallel.
+     * 
+     * Default value is `2000` (in ms)
+     */
     threshold?: number;
-    webhookUrl: string;
   }
 }
 
 import debounce from 'debounce';
+import flat from './helpers/flat';
 
-export function init(options: Options) {
+export function init(options: LoggerOptions) {
   let enableLogging = false;
   let logs: Log[] = [];
 
@@ -46,7 +97,9 @@ export function init(options: Options) {
     console: console,
   };
 
-  if (!options.reporter) {
+  const reporters = options.reporters || [];
+
+  if (!reporters.length) {
     console.warn('[Browlog] Logger is disabled due to reporter is not specified. Please at least add 1 reporter, for more information check https://github.com/josteph/browlog#reporter')
     return defaultLogger;
   }
@@ -60,13 +113,9 @@ export function init(options: Options) {
   const _error = console.error;
 
   const sendLog = async () => {
-    const promisifiedLogs: (void | Promise<void | Response>)[] = logs.map((log: Log) => {
-      if (!options.webhookUrl) {
-        return _error(log);
-      }
-
-      return options.reporter(log);
-    });
+    const promisifiedLogs: (void | Promise<void | Response>)[] = flat(logs.map((log: Log) => {
+      return reporters.map(reporter => reporter(log));
+    }));
 
     return Promise.all(promisifiedLogs).then(() => {
       logs = [];
