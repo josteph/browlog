@@ -4,18 +4,18 @@
   "description": "Instant error reporting from browser to your webhook channel of choice",
   "author": "Joshua Stephen (https://github.com/josteph)",
   "homepage": "https://github.com/josteph/browlog",
-  "main": "dist/index.js",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "private": false,
+  "sideEffects": false,
   "keywords": [
     "logger",
     "browser",
     "error logger"
   ],
-  "files": [
-    "index.js"
-  ],
   "scripts": {
     "build": "rm -rf ./dist && node ./scripts/build",
-    "prerelease": "npm run build",
+    "prerelease": "npm run build && node ./scripts/publish",
     "release": "release-it"
   },
   "repository": {
@@ -37,5 +37,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }

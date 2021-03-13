@@ -1,3 +1,5 @@
+import type { Log } from '../index';
+
 const generateTemplate = (log: Log) => {
   const finalLog = {
     environment: 'production',
@@ -68,7 +70,7 @@ const generateFetch = (data, webhookUrl: string) => {
   });
 };
 
-const slackReporter = (log: Log, webhookUrl: string) => {
+const slackReporter = (webhookUrl: string) => (log: Log) => {
   return generateFetch(generateTemplate(log), webhookUrl);
 };
 

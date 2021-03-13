@@ -7,79 +7,79 @@ declare global {
      */
     _browlog: BrowLog | undefined;
   }
+}
 
-  interface BrowLog {
-    /**
-     * Enable logging after being disabled.
-     * 
-     * Browlog will be automatically enabled by default.
-     * 
-     * Calling this when browlog is already enabled will not yield any effect.
-     */
-    enable(): void;
+export interface BrowLog {
+  /**
+   * Enable logging after being disabled.
+   * 
+   * Browlog will be automatically enabled by default.
+   * 
+   * Calling this when browlog is already enabled will not yield any effect.
+   */
+  enable(): void;
 
-    /**
-     * Disable logging temporarily until enable() is called again
-     */
-    disable(): void;
+  /**
+   * Disable logging temporarily until enable() is called again
+   */
+  disable(): void;
 
-    /**
-     * Post an error log. Although it will be queued until debounce duration finished.
-     */
-    log(type: string, messages: any[]): void;
+  /**
+   * Post an error log. Although it will be queued until debounce duration finished.
+   */
+  log(type: string, messages: any[]): void;
 
-    /**
-     * The original from overriden console object.
-     * 
-     * Browlog only covers "error" only for now.
-     */
-    console: {
-      error: any;
-    }
+  /**
+   * The original from overriden console object.
+   * 
+   * Browlog only covers "error" only for now.
+   */
+  console: {
+    error: any;
   }
+}
 
-  interface Log {
-    type: string;
-    referrer: string;
-    userAgent: string;
-    timestamp: number;
-    time: string;
-    href: string;
-    messages: string[];
-  }
+export interface Log {
+  type: string;
+  referrer: string;
+  userAgent: string;
+  timestamp: number;
+  time: string;
+  href: string;
+  messages: string[];
+}
 
-  interface LoggerOptions {
-    /**
-     * An array of promises generated from fetch after chain process a log request.
-     * 
-     * Read more about it here:
-     * https://github.com/josteph/browlog#reporter
-     */
-    reporters: ((...data: any[]) => void)[];
+export interface LoggerOptions {
+  /**
+   * An array of promises generated from fetch after chain process a log request.
+   * 
+   * Read more about it here:
+   * https://github.com/josteph/browlog#reporters
+   */
+  reporters: ((...data: any[]) => void)[];
 
-    /**
-     * Prevent browlog from init & attaching event listeners.
-     * 
-     * You can call another `browlog.init()` again somewhere.
-     */
-    disable?: boolean;
+  /**
+   * Prevent browlog from init & attaching event listeners.
+   * 
+   * You can call another `browlog.init()` again somewhere.
+   */
+  disable?: boolean;
 
-    /**
-     * An array of regex to filter out unnecessary errors from being logged.
-     * 
-     * For example:
-     * 
-     * `[/Message\: Script error\./, /Vue warn/, /Service worker/]`
-     */
-    ignoreErrors?: RegExp[];
+  /**
+   * An array of regex to filter out unnecessary errors from being logged.
+   * 
+   * For example:
+   * 
+   * `[/Message\: Script error\./, /Vue warn/, /Service worker/]`
+   */
+  ignoreErrors?: RegExp[];
 
-    /**
-     * Debounce threshold for the logger to be queued before sending them in parallel.
-     * 
-     * Default value is `2000` (in ms)
-     */
-    threshold?: number;
-  }
+  /**
+   * Debounce threshold for the logger to be queued before sending them in parallel.
+   * 
+   * Default value is `2000` (in ms)
+   */
+  threshold?: number;
 }
 
 import debounce from 'debounce';
@@ -100,7 +100,7 @@ export function init(options: LoggerOptions) {
   const reporters = options.reporters || [];
 
   if (!reporters.length) {
-    console.warn('[Browlog] Logger is disabled due to reporter is not specified. Please at least add 1 reporter, for more information check https://github.com/josteph/browlog#reporter')
+    console.warn('[Browlog] Logger is disabled due to reporter is not specified. Please at least add 1 reporter, for more information check https://github.com/josteph/browlog#reporters')
     return defaultLogger;
   }
 
