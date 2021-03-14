@@ -66,6 +66,13 @@ export interface LoggerOptions {
   disable?: boolean;
 
   /**
+   * Prevent auto enable logger on init.
+   * 
+   * You should call window._browlog.enable() if you want to start listening to errors.
+   */
+  manual?: boolean;
+
+  /**
    * An array of regex to filter out unnecessary errors from being logged.
    * 
    * For example:
@@ -85,7 +92,7 @@ export interface LoggerOptions {
 import debounce from 'debounce';
 import flat from './helpers/flat';
 
-export function init(options: LoggerOptions) {
+function browlog(options: LoggerOptions) {
   let enableLogging = false;
   let logs: Log[] = [];
 
@@ -211,5 +218,11 @@ export function init(options: LoggerOptions) {
     }
   };
 
+  if (!options.manual) {
+    enable();
+  }
+
   return window._browlog;
 }
+
+export default browlog;
