@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/josteph/browlog/compare/1.1.0...1.2.0) (2021-03-14)
+
+
+### Features
+
+* add manual option, switch to export default ([b3b5476](https://github.com/josteph/browlog/commit/b3b5476a19579c48fc4bcafa108bd320722cc788))
+
 # 1.1.0 (2021-03-13)
 
 
