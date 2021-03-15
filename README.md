@@ -44,7 +44,7 @@ Also please remember that this is only for client-side logger, if this code also
 
 You can import any existing reporters (or create your own), by importing from this path:
 
-```
+```js
 import reporter from 'browlog/reporters/<supported_reporter>';
 ```
 
@@ -54,6 +54,31 @@ List of currently supported reporters:
 2. Microsoft Teams (soon)
 
 Note: If you don't specify any reporters, browlog will be disabled automatically.
+
+---
+
+You can, however, add your own custom reporter as such:
+
+```js
+const customReporter = (log) => {
+  // do anything
+  // as long as you return a promise here.
+};
+```
+
+You can check what is a `Log` object from the typings:
+
+```ts
+interface Log {
+  type: string; // event type, could be window:onerror, etc.
+  referrer: string;
+  userAgent: string;
+  timestamp: number; // unix timestamp
+  time: string; // humanized timestamp, Asia/Jakarta as timezone
+  href: string;
+  messages: string[];
+}
+```
 
 ## Options
 
