@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/josteph/browlog/compare/1.3.0...1.3.1) (2021-03-20)
+
+
+### Bug Fixes
+
+* teams template as attachments ([2aed066](https://github.com/josteph/browlog/commit/2aed06671692077e646a767f2255edf1caace2c6))
+
 # [1.3.0](https://github.com/josteph/browlog/compare/1.2.0...1.3.0) (2021-03-20)
 
 
