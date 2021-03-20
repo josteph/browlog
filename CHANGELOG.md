@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/josteph/browlog/compare/1.2.0...1.3.0) (2021-03-20)
+
+
+### Features
+
+* add teams reporter, app name, update readme ([458f0ee](https://github.com/josteph/browlog/commit/458f0ee830ea6fb1fa8883f5cace4a7891c59b03))
+
 # [1.2.0](https://github.com/josteph/browlog/compare/1.1.0...1.2.0) (2021-03-14)
 
 
