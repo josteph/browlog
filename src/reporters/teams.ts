@@ -5,7 +5,7 @@ const generateTemplate = (log: Log, extraLogProps: any) => {
 
   const finalLog = { ...log, ...restExtraLog };
 
-  return {
+  const adaptiveCard =  {
     '$schema': 'http://adaptivecards.io/schemas/adaptive-card.json',
     'type': 'AdaptiveCard',
     'version': '1.0',
@@ -24,9 +24,9 @@ const generateTemplate = (log: Log, extraLogProps: any) => {
                 'wrap': true,
                 'weight': 'Bolder'
               }
-              ],
-              'verticalContentAlignment': 'Center'
-            }
+            ],
+            'verticalContentAlignment': 'Center'
+          }
         ],
         'padding': {
           'top': 'Small',
@@ -72,6 +72,17 @@ const generateTemplate = (log: Log, extraLogProps: any) => {
       }
     ],
     'padding': 'None'
+  };
+
+  return {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "contentUrl": null,
+        "content": adaptiveCard
+      }
+    ]
   };
 };
 
