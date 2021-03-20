@@ -1,13 +1,12 @@
 import type { Log } from '../index';
 
-const generateTemplate = (log: Log) => {
-  const finalLog = {
-    environment: 'production',
-    ...log,
-  };
+const generateTemplate = (log: Log, extraLogProps: any) => {
+  const { appName, ...restExtraLog } = extraLogProps;
+
+  const finalLog = { ...log, ...restExtraLog };
 
   return {
-    text: "<!channel> An error has occurred!",
+    text: `<!channel> An error has occurred!${appName ? ` - ${appName}` : ''}`,
     blocks: [
       {
         type: "section",
@@ -21,24 +20,22 @@ const generateTemplate = (log: Log) => {
       },
       {
         type: 'section',
-        fields: [
-          ...Object.keys(finalLog).map(key => {
-            let content = finalLog[key];
+        fields: Object.keys(finalLog).map(key => {
+          let content = finalLog[key];
 
-            if (!content) return null;
+          if (!content) return null;
 
-            if (Array.isArray(content)) {
-              if (!content.length) return null;
+          if (Array.isArray(content)) {
+            if (!content.length) return null;
 
-              content = content.join('\n');
-            }
+            content = content.join('\n');
+          }
 
-            return {
-              type: 'mrkdwn',
-              text: `*${key}*:\n${content}`,
-            };
-          }).filter(Boolean),
-        ],
+          return {
+            type: 'mrkdwn',
+            text: `*${key}*:\n${content}`,
+          };
+        }).filter(Boolean),
       },
       {
         type: 'context',
@@ -55,7 +52,7 @@ const generateTemplate = (log: Log) => {
   };
 };
 
-const generateFetch = (data, webhookUrl: string) => {
+const generateFetch = (data: any, webhookUrl: string) => {
   return fetch(webhookUrl, {
     method: 'POST',
     headers: {
@@ -70,8 +67,8 @@ const generateFetch = (data, webhookUrl: string) => {
   });
 };
 
-const slackReporter = (webhookUrl: string) => (log: Log) => {
-  return generateFetch(generateTemplate(log), webhookUrl);
+const slackReporter = (webhookUrl: string, extraLogProps: any) => (log: Log) => {
+  return generateFetch(generateTemplate(log, extraLogProps), webhookUrl);
 };
 
 export { generateTemplate, generateFetch };

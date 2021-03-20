@@ -31,7 +31,7 @@ import slackReporter from 'browlog/reporters/slack';
 
 browlog({
   reporters: [
-    slackReporter('<slack_webhook_url>'),
+    slackReporter('<webhook_url>'),
   ]
 });
 ```
@@ -50,12 +50,32 @@ import reporter from 'browlog/reporters/<supported_reporter>';
 
 List of currently supported reporters:
 
-1. Slack
-2. Microsoft Teams (soon)
+1. Slack (`'browlog/reporters/slack'`)
+2. Microsoft Teams (`'browlog/reporters/teams'`)
 
 Note: If you don't specify any reporters, browlog will be disabled automatically.
 
----
+### App Name
+
+You can add app name to make distinct the logger between one and another. Follow the example below:
+
+```js
+import browlog from 'browlog';
+import teamsReporter from 'browlog/reporters/teams';
+
+browlog({
+  reporters: [
+    teamsReporter('<webhook_url>', {
+      appName: 'My App', // "appName" will not be combined with "Log" object.
+      environment: 'staging' // Other keys will be combined with "Log" object
+    }),
+  ]
+});
+```
+
+App name treatment is valid to all types of reporters.
+
+### Custom
 
 You can, however, add your own custom reporter as such:
 
@@ -64,6 +84,14 @@ const customReporter = (log) => {
   // do anything
   // as long as you return a promise here.
 };
+
+...
+
+browlog({
+  reporters: [
+    customReporter,
+  ]
+});
 ```
 
 You can check what is a `Log` object from the typings:
