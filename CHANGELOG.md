@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/josteph/browlog/compare/1.3.2...1.3.3) (2021-04-02)
+
+
+### Features
+
+* change build to use swc for es5 ([508bddb](https://github.com/josteph/browlog/commit/508bddbd764c76d156e1981e6d747963b170df12))
+
 ## [1.3.2](https://github.com/josteph/browlog/compare/1.3.1...1.3.2) (2021-03-20)
 
 ## [1.3.1](https://github.com/josteph/browlog/compare/1.3.0...1.3.1) (2021-03-20)

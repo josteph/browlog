@@ -1,6 +1,6 @@
 {
   "name": "browlog",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Instant error reporting from browser to your webhook channel of choice",
   "author": "Joshua Stephen (https://github.com/josteph)",
   "homepage": "https://github.com/josteph/browlog",
