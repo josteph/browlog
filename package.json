@@ -14,7 +14,7 @@
     "error logger"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && node ./scripts/build",
+    "build": "rm -rf ./dist && swc src -s -d dist && tsc --emitDeclarationOnly --skipLibCheck",
     "prerelease": "npm run build && node ./scripts/publish",
     "release": "release-it"
   },
@@ -31,7 +31,9 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^2.0.1",
-    "esbuild": "^0.10.0",
+    "@swc/cli": "^0.1.36",
+    "@swc/core": "^1.2.51",
+    "browserslist": "^4.16.3",
     "release-it": "*",
     "typescript": "^4.2.3"
   },

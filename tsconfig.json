@@ -24,7 +24,7 @@
     "strict": true,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es6",
+    "target": "es5",
     "baseUrl": "."
   },
   "include": ["src"]
